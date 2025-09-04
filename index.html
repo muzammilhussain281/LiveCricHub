@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CricLiveHub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <img src="images.img/nav-logo.png" alt="CricLive Logo">
+        <span>CricLiveHub</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#" class="active">Live</a></li>
+        <li><a href="#">Series</a></li>
+        <li><a href="asiacup-fixture.html">Fixtures</a></li>
+        <li><a href="#">Results</a></li>
+        <li><a href="#">Rankings</a></li>
+      </ul>
+      <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#" class="active">Live</a>
+    <a href="#">Series</a>
+    <a href="#">Fixtures</a>
+    <a href="#">Results</a>
+    <a href="#">Rankings</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero" onclick="window.location.href='pak-vs-india.html'" style="cursor:pointer;">
+    <div class="hero-section">
+      <h2 class="hot-match">🔥 HOT MATCH</h2>
+      <p class="status">Live • Asia Cup 2025 • Mumbai</p>
+      <h2>India vs Pakistan</h2>
+      <div class="hero-match">
+        <div class="team">
+          <img src="https://flagcdn.com/w40/in.png" alt="India">
+          <span>India</span>
+        </div>
+        <div class="score">
+          <h3>250/3</h3>
+          <small>(40 Overs)</small>
+        </div>
+        <div class="score">
+          <h3>308/3</h3>
+          <small>(50 Overs)</small>
+        </div>
+        <div class="team">
+          <img src="https://flagcdn.com/w40/pk.png" alt="Pakistan">
+          <span>Pakistan</span>
+        </div>
+      </div>
+      <p class="match-status">India needs 58 runs in 48 balls</p>
+    </div>
+  </section>
+
+  <section class="matches">
+
+    <!-- Live Matches -->
+    <h2>🔴 Live Matches</h2>
+    <div class="scroll-container">
+      <button class="scroll-btn left" onclick="scrollLeft('live')">‹</button>
+      <div class="matches-row horizontal-scroll" id="live-matches">
+        <!-- Live matches from API will appear here -->
+      </div>
+      <button class="scroll-btn right" onclick="scrollRight('live')">›</button>
+    </div>
+
+    <!-- Recent Matches -->
+    <h2>✅ Recent Matches</h2>
+    <div class="scroll-container">
+      <button class="scroll-btn left" onclick="scrollLeft('recent')">‹</button>
+      <div class="matches-row horizontal-scroll" id="recent-matches">
+        <!-- Recent matches from API will appear here -->
+      </div>
+      <button class="scroll-btn right" onclick="scrollRight('recent')">›</button>
+    </div>
+
+    <!-- Upcoming Matches -->
+    <h2>🕒 Upcoming Matches</h2>
+    <div class="scroll-container">
+      <button class="scroll-btn left" onclick="scrollLeft('upcoming')">‹</button>
+      <div class="matches-row horizontal-scroll" id="upcoming-matches">
+        <!-- Upcoming matches from API will appear here -->
+      </div>
+      <button class="scroll-btn right" onclick="scrollRight('upcoming')">›</button>
+    </div>
+
+  </section>
+  <!-- Bottom Navbar -->
+  <nav class="bottom-navbar">
+    <a href="rankings.html">🏆 Rankings</a>
+    <a href="#">👤 Players</a>
+    <a href="#">📊 Stats</a>
+    <a href="#">📅 Fixtures</a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
