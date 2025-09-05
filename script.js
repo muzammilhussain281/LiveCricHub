@@ -182,7 +182,7 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
-} 
+}
 
 // Apply debounce to resize handler
 window.addEventListener('resize', debounce(function() {
@@ -194,92 +194,85 @@ window.addEventListener('resize', debounce(function() {
 function addAccessibilityFeatures() {
     // Add keyboard navigation for mobile menu
     const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    
+    const mobileMenu = document.getElementById('mobileMenu'); }
+
+async function loadUpcomingMatches() {
+  try {
+    const response = await fetch("https://cricbuzz-cricket.p.rapidapi.com/matches/v1/upcoming", {
+      method: "GET",
+      headers: {
+        "x-rapidapi-key": "9d1e65527emsh8aa17086e524d8cp13ca59jsn41d4a0125ec4",
+        "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com"
+      }
+    });
+
+    const data = await response.json();
+    console.log("API Response:", data);
+
+    const container = document.getElementById("upcoming-matches");
+    container.innerHTML = "";
+
+    const flagMap = {
+      IND: "in", PAK: "pk", AUS: "au", ENG: "gb", SA: "za",
+      NZ: "nz", SL: "lk", BAN: "bd", AFG: "af", WI: "jm",
+      ZIM: "zw", IRE: "ie", UAE: "ae", HK: "hk", NEP: "np",
+      SCO: "gb-sct", NED: "nl", USA: "us", OMAN: "om"
+    };
+
+    (data.typeMatches || []).forEach(type => {
+      (type.seriesMatches || []).forEach(series => {
+        if (series.seriesAdWrapper && series.seriesAdWrapper.matches) {
+          series.seriesAdWrapper.matches.forEach(match => {
+            const team1 = match.matchInfo.team1;
+            const team2 = match.matchInfo.team2;
+            const venue = match.matchInfo.venueInfo.ground;
+
+            // ✅ Fix Date
+            const timestamp = parseInt(match.matchInfo.startDate);
+            const date = new Date(timestamp); // direct use
+            const formattedDate = isNaN(date.getTime()) 
+              ? "TBD"
+              : date.toLocaleString("en-GB", {
+                  weekday: "short",
+                  day: "numeric",
+                  month: "short",
+                  hour: "2-digit",
+                  minute: "2-digit"
+                });
+
+            const team1Name = team1.teamSName;
+            const team2Name = team2.teamSName;
+
+            // ✅ HD Flags
+            const team1Flag = `https://flagcdn.com/w40/${flagMap[team1Name] || "un"}.png`;
+            const team2Flag = `https://flagcdn.com/w40/${flagMap[team2Name] || "un"}.png`;
+
+            const card = document.createElement("div");
+            card.className = "match-card";
+            card.innerHTML = `
+              <div class="match-header">${venue} • ${formattedDate}</div>
+              <div class="match-body">
+                <div class="team">
+                  <img src="${team1Flag}" alt="${team1Name}" />
+                  <span class="name">${team1Name}</span>
+                  <span class="score">--</span>
+                </div>
+                <div class="team">
+                  <img src="${team2Flag}" alt="${team2Name}" />
+                  <span class="name">${team2Name}</span>
+                  <span class="score">--</span>
+                </div>
+              </div>
+            `;
+            container.appendChild(card);
+          });
+        }
+      });
+    });
+
+  } catch (error) {
+    console.error("Error fetching matches:", error);
+  }
 }
 
-
-// Scroll Functions
-function scrollLeft(section) {
-  document.getElementById(section + "-matches").scrollBy({
-    left: -300,
-    behavior: "smooth"
-  });
-}
-
-function scrollRight(section) {
-  document.getElementById(section + "-matches").scrollBy({
-    left: 300,
-    behavior: "smooth"
-  });
-}
-
-// Dummy API Data (Replace with real API fetch)
-const dummyData = {
-  live: [
-    {
-      info: "LIVE • ODI • Mumbai",
-      team1: { name: "India", flag: "https://flagcdn.com/w20/in.png", score: "260/5", overs: "(50 ov)" },
-      team2: { name: "Pakistan", flag: "https://flagcdn.com/w20/pk.png", score: "120/3", overs: "(25 ov)" },
-      result: "Pakistan need 140 runs to win"
-    }
-  ],
-  recent: [
-    {
-      info: "RESULT • T20 • Dubai",
-      team1: { name: "Australia", flag: "https://flagcdn.com/w20/au.png", score: "152/7", overs: "(20 ov)" },
-      team2: { name: "England", flag: "https://flagcdn.com/w20/gb.png", score: "153/4", overs: "(19.3 ov)" },
-      result: "England won by 6 wickets"
-    }
-  ],
-  upcoming: [
-    {
-      info: "UPCOMING • T20 • Dubai",
-      team1: { name: "Bangladesh", flag: "https://flagcdn.com/w20/bd.png", score: "--", overs: "--" },
-      team2: { name: "Zimbabwe", flag: "https://flagcdn.com/w20/zw.png", score: "--", overs: "--" },
-      result: "Match starts at 7:00 PM"
-    }
-  ]
-};
-
-// Function to render matches
-function renderMatches(section, matches) {
-  const container = document.getElementById(section + "-matches");
-  container.innerHTML = "";
-  matches.forEach(match => {
-    const card = document.createElement("div");
-    card.className = "match-card";
-    card.innerHTML = `
-      <div class="match-header">
-        <span class="info">${match.info}</span>
-      </div>
-      <div class="match-body">
-        <div class="team">
-          <img src="${match.team1.flag}" alt="${match.team1.name}">
-          <span class="name">${match.team1.name}</span>
-          <span class="score">${match.team1.score}</span>
-          <span class="overs">${match.team1.overs}</span>
-        </div>
-        <div class="team">
-          <img src="${match.team2.flag}" alt="${match.team2.name}">
-          <span class="name">${match.team2.name}</span>
-          <span class="score">${match.team2.score}</span>
-          <span class="overs">${match.team2.overs}</span>
-        </div>
-      </div>
-      <p class="result">${match.result}</p>
-    `;
-    container.appendChild(card);
-  });
-}
-
-// Load Matches (From API or Dummy)
-function loadMatches() {
-  // Example: Replace dummyData.live with API response
-  renderMatches("live", dummyData.live);
-  renderMatches("recent", dummyData.recent);
-  renderMatches("upcoming", dummyData.upcoming);
-}
-
-// On Page Load
-window.onload = loadMatches;
+loadUpcomingMatches();

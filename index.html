@@ -62,39 +62,93 @@
     </div>
   </section>
 
-  <section class="matches">
+  <!-- Matches Section -->
+<section class="matches">
 
-    <!-- Live Matches -->
-    <h2>🔴 Live Matches</h2>
-    <div class="scroll-container">
-      <button class="scroll-btn left" onclick="scrollLeft('live')">‹</button>
-      <div class="matches-row horizontal-scroll" id="live-matches">
-        <!-- Live matches from API will appear here -->
+  <!-- Live Matches -->
+  <h2>🔴 Live Matches</h2>
+  <div class="matches-row">
+    <!-- Match Card -->
+    <div class="match-card" onclick="window.location.href='ind-vs-pak.html'">
+      <div class="match-header">
+        <span class="info">INNINGS BREAK • ODI • Mumbai</span>
       </div>
-      <button class="scroll-btn right" onclick="scrollRight('live')">›</button>
+      <div class="match-body">
+        <div class="team">
+          <img src="https://flagcdn.com/w20/in.png" alt="India">
+          <span class="name">India</span>
+          <span class="score">260/5</span>
+          <span class="overs">(50 ov)</span>
+        </div>
+        <div class="team">
+          <img src="https://flagcdn.com/w20/pk.png" alt="Pakistan">
+          <span class="name">Pakistan</span>
+          <span class="score">120/3</span>
+          <span class="overs">(25 ov)</span>
+        </div>
+      </div>
+      <p class="result">Pakistan need 140 runs to win</p>
     </div>
 
-    <!-- Recent Matches -->
-    <h2>✅ Recent Matches</h2>
-    <div class="scroll-container">
-      <button class="scroll-btn left" onclick="scrollLeft('recent')">‹</button>
-      <div class="matches-row horizontal-scroll" id="recent-matches">
-        <!-- Recent matches from API will appear here -->
+    <!-- Match Card -->
+    <div class="match-card" onclick="window.location.href='ind-vs-pak.html'">
+      <div class="match-header">
+        <span class="info">INNINGS BREAK • ODI • Mumbai</span>
       </div>
-      <button class="scroll-btn right" onclick="scrollRight('recent')">›</button>
-    </div>
-
-    <!-- Upcoming Matches -->
-    <h2>🕒 Upcoming Matches</h2>
-    <div class="scroll-container">
-      <button class="scroll-btn left" onclick="scrollLeft('upcoming')">‹</button>
-      <div class="matches-row horizontal-scroll" id="upcoming-matches">
-        <!-- Upcoming matches from API will appear here -->
+      <div class="match-body">
+        <div class="team">
+          <img src="https://flagcdn.com/w20/in.png" alt="India">
+          <span class="name">India</span>
+          <span class="score">260/5</span>
+          <span class="overs">(50 ov)</span>
+        </div>
+        <div class="team">
+          <img src="https://flagcdn.com/w20/pk.png" alt="Pakistan">
+          <span class="name">Pakistan</span>
+          <span class="score">120/3</span>
+          <span class="overs">(25 ov)</span>
+        </div>
       </div>
-      <button class="scroll-btn right" onclick="scrollRight('upcoming')">›</button>
+      <p class="result">Pakistan need 140 runs to win</p>
     </div>
+  </div>
 
-  </section>
+  
+  <!-- Recent Matches -->
+  <h2>✅ Recent Matches</h2>
+  <div class="matches-row">
+    <div class="match-card" onclick="window.location.href='aus-vs-eng.html'">
+      <div class="match-header">
+        <span class="info">RESULT • T20 • Dubai</span>
+      </div>
+      <div class="match-body">
+        <div class="team">
+          <img src="https://flagcdn.com/w20/au.png" alt="Australia">
+          <span class="name">Australia</span>
+          <span class="score">152/7</span>
+          <span class="overs">(20 ov)</span>
+        </div>
+        <div class="team">
+          <img src="https://flagcdn.com/w20/gb.png" alt="England">
+          <span class="name">England</span>
+          <span class="score">153/4</span>
+          <span class="overs">(19.3 ov)</span>
+        </div>
+      </div>
+      <p class="result">England won by 6 wickets</p>
+    </div>
+  </div>
+
+  <!-- Upcoming Matches -->
+  <h2>🕒 Upcoming Matches</h2>
+  <div id="upcoming-matches" class="matches-row">
+    <!-- Matches API se dynamically load honge -->
+  </div>
+</section>
+
+
+</section>
+
   <!-- Bottom Navbar -->
   <nav class="bottom-navbar">
     <a href="rankings.html">🏆 Rankings</a>
