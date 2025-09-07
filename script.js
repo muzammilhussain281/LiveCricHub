@@ -323,6 +323,7 @@ loadUpcomingMatches();
               const team2Overs = team2Inngs ? `(${team2Inngs.overs} ov)` : "";
 
               const result = info.status;
+              
 
               // ✅ Flag mapping apply
               const team1Code = teamFlags[info.team1.teamSName.toLowerCase()] || "un";
@@ -442,3 +443,102 @@ async function loadUpcomingMatches(limit = 5) {
   }
 
   loadUpcomingMatches();
+
+//   live-matches
+
+async function loadLiveMatches(limit = 5) {
+  try {
+    const response = await fetch("https://cricbuzz-cricket.p.rapidapi.com/matches/v1/live", {
+      method: "GET",
+      headers: {
+        "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
+        "x-rapidapi-key": "a179ffdd2emsh471c0640ff7767fp1bff26jsn046f6d3f956c" // apna RapidAPI key lagao
+      }
+    });
+
+    const data = await response.json();
+    const container = document.getElementById("live-matches");
+    container.innerHTML = "";
+
+    let count = 0;
+
+    // ✅ Team flag mapping
+    const teamFlags = {
+      ind: "in", pak: "pk", eng: "gb", aus: "au",
+      sa: "za", nz: "nz", sl: "lk", ban: "bd",
+      afg: "af", wi: "jm", ire: "ie", zim: "zw", uae: "ae"
+    };
+
+    data.typeMatches.forEach(type => {
+      type.seriesMatches.forEach(series => {
+        if (series.seriesAdWrapper) {
+          series.seriesAdWrapper.matches.forEach(match => {
+            if (count < limit) {
+              const info = match.matchInfo;
+              const score = match.matchScore;
+
+              const team1 = info.team1.teamName;
+              const team2 = info.team2.teamName;
+
+              const team1Inngs = score?.team1Score?.inngs1;
+              const team2Inngs = score?.team2Score?.inngs1;
+
+              const team1Score = team1Inngs 
+  ? `${team1Inngs.runs}/${team1Inngs.wickets ?? 0}` 
+  : "";
+
+const team1Overs = team1Inngs 
+  ? `(${team1Inngs.overs} ov)` 
+  : "";
+
+const team2Score = team2Inngs 
+  ? `${team2Inngs.runs}/${team2Inngs.wickets ?? 0}` 
+  : "";
+
+const team2Overs = team2Inngs 
+  ? `(${team2Inngs.overs} ov)` 
+  : "";
+              const result = info.status;
+
+              // ✅ Flags
+              const team1Code = teamFlags[info.team1.teamSName.toLowerCase()] || "un";
+              const team2Code = teamFlags[info.team2.teamSName.toLowerCase()] || "un";
+
+              // ✅ Match Card
+              const card = `
+                <div class="match-card" onclick="window.location.href='${info.team1.teamSName.toLowerCase()}-vs-${info.team2.teamSName.toLowerCase()}.html'">
+                  <div class="match-header">
+                    <span class="info">LIVE • ${info.matchDesc} • ${info.venueInfo.ground}</span>
+                  </div>
+                  <div class="match-body">
+                    <div class="team">
+                      <img src="https://flagcdn.com/w20/${team1Code}.png" alt="${team1}">
+                      <span class="name">${team1}</span>
+                      <span class="score">${team1Score}</span>
+                      <span class="overs">${team1Overs}</span>
+                    </div>
+                    <div class="team">
+                      <img src="https://flagcdn.com/w20/${team2Code}.png" alt="${team2}">
+                      <span class="name">${team2}</span>
+                      <span class="score">${team2Score}</span>
+                      <span class="overs">${team2Overs}</span>
+                    </div>
+                  </div>
+                  <p class="result">${result}</p>
+                </div>
+              `;
+
+              container.innerHTML += card;
+              count++;
+            }
+          });
+        }
+      });
+    });
+  } catch (error) {
+    console.error("Error loading live matches:", error);
+  }
+}
+
+// ✅ Page load pe call karo
+loadLiveMatches();
